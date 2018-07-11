@@ -56,7 +56,7 @@ int main(int argc, char** argv)
   // If you have renamed these, please set the 'ikfast_base_frame' and 'ikfast_tool_frame' parameter (not in the
   // private namespace) to the base and tool frame used to generate the IKFast model.
   auto params = opw_kinematics::makeIrb2400_10<double>();
-  descartes_core::RobotModelPtr model (new OPWMoveitStateAdapter(params, "base_link", "tool0"));
+  descartes_core::RobotModelPtr model (new descartes_opw_model::OPWMoveitStateAdapter(params, "base_link", "tool0"));
 
   // Name of description on parameter server. Typically just "robot_description". Used to initialize
   // moveit model.
