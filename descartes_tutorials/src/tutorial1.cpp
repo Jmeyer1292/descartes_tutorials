@@ -12,6 +12,9 @@
 #include <descartes_trajectory/axial_symmetric_pt.h>
 #include <descartes_trajectory/cart_trajectory_pt.h>
 
+#include <opw_kinematics/opw_parameters_examples.h>
+#include <descartes_opw_model/descartes_opw_model.h>
+
 // Includes the planner we will be using
 #include <descartes_planner/dense_planner.h>
 
@@ -52,7 +55,8 @@ int main(int argc, char** argv)
   // kinematics.yaml file. By default, it assumes that the underlying kinematics are from 'base_link' to 'tool0'.
   // If you have renamed these, please set the 'ikfast_base_frame' and 'ikfast_tool_frame' parameter (not in the
   // private namespace) to the base and tool frame used to generate the IKFast model.
-  descartes_core::RobotModelPtr model (new descartes_moveit::IkFastMoveitStateAdapter());
+  auto params = opw_kinematics::makeIrb2400_10<double>();
+  descartes_core::RobotModelPtr model (new OPWMoveitStateAdapter(params, "base_link", "tool0"));
 
   // Name of description on parameter server. Typically just "robot_description". Used to initialize
   // moveit model.

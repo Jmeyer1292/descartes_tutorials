@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   descartes_trajectory
   descartes_planner
   descartes_utilities
+  descartes_opw_model
   trajectory_msgs
   tf
   tf_conversions
