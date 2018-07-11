@@ -7,6 +7,8 @@
 
 // Includes the descartes robot model we will be using
 #include <descartes_moveit/ikfast_moveit_state_adapter.h>
+#include <descartes_tesseract/tesseract_state_adapter.h>
+#include <opw_kinematics/opw_parameters_examples.h>
 
 // Includes the descartes trajectory type we will be using
 #include <descartes_trajectory/axial_symmetric_pt.h>
@@ -52,7 +54,13 @@ int main(int argc, char** argv)
   // kinematics.yaml file. By default, it assumes that the underlying kinematics are from 'base_link' to 'tool0'.
   // If you have renamed these, please set the 'ikfast_base_frame' and 'ikfast_tool_frame' parameter (not in the
   // private namespace) to the base and tool frame used to generate the IKFast model.
-  descartes_core::RobotModelPtr model (new descartes_moveit::IkFastMoveitStateAdapter());
+  descartes_core::RobotModelPtr model2 (new descartes_moveit::IkFastMoveitStateAdapter());
+
+
+
+  // Construct model
+  const auto params = opw_kinematics::makeIrb2400_10<double>();
+  descartes_core::RobotModelPtr model (new descartes_tesseract::TesseractStateAdapter(params, "base_link", "tool0"));
 
   // Name of description on parameter server. Typically just "robot_description". Used to initialize
   // moveit model.
@@ -98,12 +106,11 @@ int main(int argc, char** argv)
     return -2;
   }
 
+  ros::WallTime start_time = ros::WallTime::now();
   // 4. Now, for the planning itself. This typically happens in two steps. First, call planPath(). This function takes
   // your input trajectory and expands it into a large kinematic "graph". Failures at this point indicate that the
   // input path may not have solutions at a given point (because of reach/collision) or has two points with no way
   // to connect them.
-  ros::WallTime start_time = ros::WallTime::now();
-
   if (!planner.planPath(points))
   {
     ROS_ERROR("Could not solve for a valid path");

@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   tf
   tf_conversions
+  descartes_tesseract
 )
 
 catkin_package()
@@ -34,6 +35,17 @@ target_link_libraries(${PROJECT_NAME}_tutorial1
 
 set_target_properties(${PROJECT_NAME}_tutorial1
   PROPERTIES OUTPUT_NAME tutorial1
+  PREFIX "")
+
+# Tutorial 1
+add_executable(${PROJECT_NAME}_tutorial1_tess src/tutorial1_tess.cpp)
+
+target_link_libraries(${PROJECT_NAME}_tutorial1_tess
+ ${catkin_LIBRARIES}
+)
+
+set_target_properties(${PROJECT_NAME}_tutorial1_tess
+  PROPERTIES OUTPUT_NAME tutorial1_tess
   PREFIX "")
 
 # Tutorial 2 - Puzzle Demo
